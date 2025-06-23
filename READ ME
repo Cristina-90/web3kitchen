@@ -1,0 +1,33 @@
+# Web3Kitchen
+
+Este proyecto Web3 incluye:
+
+- 🎯 Contrato inteligente en ink! para gestionar tickets de catering con preferencias alimenticias (vegano, hallal, etc.).
+- 🧑‍🍳 Frontend web con Vite y Polkadot.js.
+- 🤖 Bot de Telegram para recibir feedback y recompensar con TON.
+
+## Estructura
+- `contract/` – Contrato ink!
+- `frontend/` – Web en Vite
+- `bot/` – Telegram bot
+
+## Pasos sugeridos
+
+1. Compilar contrato:
+```
+cd contract
+cargo +nightly contract build
+```
+
+2. Ejecutar frontend:
+```
+cd frontend
+npm install
+npm run dev
+```
+
+3. Configurar bot:
+- Agrega el token del bot de Telegram
+- Usa tonweb para enviar recompensas
+
+Disfruta de Web3Kitchen 👩‍🍳
