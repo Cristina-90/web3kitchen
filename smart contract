@@ -1,0 +1,44 @@
+// ink! smart contract for Web3Kitchen - NFT Catering Ticket
+#![cfg_attr(not(feature = "std"), no_std)]
+
+#[ink::contract]
+pub mod web3kitchen_nft {
+    use ink::storage::Mapping;
+
+    #[ink(storage)]
+    pub struct Web3KitchenNFT {
+        tickets: Mapping<AccountId, bool>,
+        dietary_preferences: Mapping<AccountId, Vec<u8>>, // json-encoded preferences
+    }
+
+    impl Web3KitchenNFT {
+        #[ink(constructor)]
+        pub fn new() -> Self {
+            Self {
+                tickets: Mapping::default(),
+                dietary_preferences: Mapping::default(),
+            }
+        }
+
+        #[ink(message)]
+        pub fn claim_ticket(&mut self, preferences: Vec<u8>) -> bool {
+            let caller = self.env().caller();
+            if self.tickets.get(caller).unwrap_or(false) {
+                return false; // already claimed
+            }
+            self.tickets.insert(caller, &true);
+            self.dietary_preferences.insert(caller, &preferences);
+            true
+        }
+
+        #[ink(message)]
+        pub fn has_ticket(&self, account: AccountId) -> bool {
+            self.tickets.get(account).unwrap_or(false)
+        }
+
+        #[ink(message)]
+        pub fn get_preferences(&self, account: AccountId) -> Option<Vec<u8>> {
+            self.dietary_preferences.get(account)
+        }
+    }
+}
